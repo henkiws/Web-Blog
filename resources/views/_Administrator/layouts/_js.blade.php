@@ -28,10 +28,19 @@
 
     <script src="{{ asset('/') }}assets/plugins/jquery-knob/jquery.knob.js"></script>
 
-    <script src="{{ asset('/') }}assets/pages/jquery.dashboard.js"></script>
+    {{-- <script src="{{ asset('/') }}assets/pages/jquery.dashboard.js"></script> --}}
 
     <script src="{{ asset('/') }}assets/js/jquery.core.js"></script>
     <script src="{{ asset('/') }}assets/js/jquery.app.js"></script>
+    <script src="{{ asset('/') }}assets/js/custom.js"></script>
+
+    {{-- Datatables --}}
+    {{-- <script src="{{ asset('/') }}assets/datatables/datatables.bundle.js"></script> --}}
+    <script src="{{ asset('/') }}assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('/') }}assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    {{-- <script src="{{ asset('/') }}assets/plugins/datatables/dataTables.buttons.min.js"></script> --}}
+
+    <script src="{{ asset('/') }}assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
 
     @stack('js')
 

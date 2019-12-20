@@ -31,8 +31,8 @@ class MenuMiddleware
 
             $menu->dropdown('Users', function ($sub) use($user,$attr) {
                 $sub->url('administrator/users', 'All User', $attr);
-                $sub->url('administrator/users/role', 'Roles', $attr);
-                $sub->url('administrator/users/permission', 'Permissions', $attr);
+                $sub->url('administrator/role/users', 'Roles', $attr);
+                $sub->url('administrator/permission/users', 'Permissions', $attr);
             }, ['icon' => 'fa fa-users']);
 
             $menu->dropdown('Managements', function ($sub) use($user,$attr) {

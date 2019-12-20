@@ -19,6 +19,17 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth','menu']], function () {
     Route::namespace('_Administrator')->group(function () {
+
         Route::get('administrator/home','HomeController@index');
+
+        Route::get('administrator/users/source','UserController@source');
+        Route::resource('administrator/users','UserController');
+
+        Route::get('administrator/role/users/source','RoleController@source');
+        Route::resource('administrator/role/users','RoleController');
+
+        Route::get('administrator/permission/users/source','PermissionController@source');
+        Route::resource('administrator/permission/users','PermissionController');
+
     });
 });

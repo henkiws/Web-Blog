@@ -1,5 +1,5 @@
 <!--Morris Chart CSS -->
-<link rel="stylesheet" href="assets/plugins/morris/morris.css">
+<link rel="stylesheet" href="{{ asset('/') }}assets/plugins/morris/morris.css">
 
 <link href="{{ asset('/') }}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/') }}assets/css/core.css" rel="stylesheet" type="text/css" />
@@ -7,6 +7,13 @@
 <link href="{{ asset('/') }}assets/css/icons.css" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/') }}assets/css/pages.css" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/') }}assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+{{-- Datatables --}}
+<link href="{{ asset('/') }}assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('/') }}assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+<link href="{{ asset('/') }}assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css">
+
 @stack('css')
 
 @stack('style')
