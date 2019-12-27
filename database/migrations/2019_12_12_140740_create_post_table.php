@@ -23,6 +23,7 @@ class CreatePostTable extends Migration
             $table->string('post_status')->comment('publish, draft');
             $table->string('comment_status')->comment('open, close');
             $table->integer('comment_count')->default(0);
+            $table->bigInteger('category_id');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -18,12 +18,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth','menu']], function () {
-    Route::namespace('_Administrator')->group(function () {
+    // Home
+    Route::namespace('_Administrator\Dashboard')->group(function () {
 
         Route::get('administrator/home','HomeController@index');
 
-        Route::get('administrator/users/source','UserController@source');
-        Route::resource('administrator/users','UserController');
+    });
+    // User
+    Route::namespace('_Administrator\User')->group(function () {
+
+        Route::get('administrator/users/all/source','UserController@source');
+        Route::resource('administrator/users/all','UserController');
 
         Route::get('administrator/role/users/source','RoleController@source');
         Route::resource('administrator/role/users','RoleController');
@@ -32,4 +37,18 @@ Route::group(['middleware' => ['auth','menu']], function () {
         Route::resource('administrator/permission/users','PermissionController');
 
     });
+    // Management
+    Route::namespace('_Administrator\Management')->group(function () {
+
+        Route::get('administrator/management/category/source','CategoryController@source');
+        Route::resource('administrator/management/category','CategoryController');
+
+        Route::get('administrator/management/tag/source','TagController@source');
+        Route::resource('administrator/management/tag','TagController');
+
+        Route::get('administrator/management/post/source','PostController@source');
+        Route::resource('administrator/management/post','PostController');
+
+    });
+
 });

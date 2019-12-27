@@ -15,6 +15,7 @@ $(function () {
         $('#form-modal').find('input[name="id"]').remove();
         $('#form-modal').find('input[name="_method"]').remove();
         $('#title-status').html('Add');
+        $('#form-modal').trigger("reset");
         $('#add').modal('show');
     })
 
@@ -50,6 +51,8 @@ $(function () {
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: window.location.origin+window.location.pathname+'/'+id+'/edit',
             beforeSend: function () {
+                $('#form-modal').find('input[name="id"]').remove();
+                $('#form-modal').find('input[name="_method"]').remove();
             },
             success: function (res) {
                 // var key = Object.keys(res);

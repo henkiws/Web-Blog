@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\_Administrator;
+namespace App\Http\Controllers\_Administrator\Management;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DataTables;
+use App\Model\Tag;
 
-class CommentController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        return view('_Administrator.management.tag.index');
     }
 
     /**
@@ -34,8 +36,10 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $data = Tag::create(['name' => $request->name]);
+
+        return response()->json(true);
     }
 
     /**
@@ -57,7 +61,14 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Tag::findOrFail($id);
+
+        $data = [
+            "id" => $data->id,
+            "name" => $data->name
+        ];
+
+        return response()->json($data);
     }
 
     /**
@@ -69,7 +80,11 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $find = Tag::findOrFail($id);
+
+        $find->update($request->all());
+
+        return response()->json(true);
     }
 
     /**
@@ -80,6 +95,24 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $find = Tag::findOrFail($id);
+
+        $find->delete();
+
+        return response()->json(true);
     }
+
+    public function source(){
+        $data = Tag::get();
+        return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $editButton = '<button class="btn btn-icon waves-effect btn-warning waves-light show-data" data="'.$row->id.'"> <i class="fa fa-edit"></i> </button>';
+                    $deleteButton = '<button class="btn btn-icon waves-effect btn-danger waves-light del-data" data="'.$row->id.'"> <i class="fa fa-trash-o"></i> </button>';
+                    return $editButton.' &nbsp; '.$deleteButton;            
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+    }
+
 }

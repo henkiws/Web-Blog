@@ -30,15 +30,15 @@ class MenuMiddleware
             $menu->url('administrator/home', 'Dashboard', ['icon' => 'fa fa-home']);
 
             $menu->dropdown('Users', function ($sub) use($user,$attr) {
-                $sub->url('administrator/users', 'All User', $attr);
+                $sub->url('administrator/users/all', 'All User', $attr);
                 $sub->url('administrator/role/users', 'Roles', $attr);
                 $sub->url('administrator/permission/users', 'Permissions', $attr);
             }, ['icon' => 'fa fa-users']);
 
             $menu->dropdown('Managements', function ($sub) use($user,$attr) {
-                $sub->url('administrator/managements/pos', 'Pos', $attr);
-                $sub->url('administrator/managements/category', 'Category', $attr);
-                $sub->url('administrator/managements/tag', 'Tag', $attr);
+                $sub->url('administrator/management/post', 'Post', $attr);
+                $sub->url('administrator/management/category', 'Category', $attr);
+                $sub->url('administrator/management/tag', 'Tag', $attr);
             }, ['icon' => 'fa fa-archive']);
 
             $menu->dropdown('Settings', function ($sub) use($user,$attr) {

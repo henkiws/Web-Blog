@@ -23,7 +23,7 @@
         <div class="card-box">
             <h4 class="m-t-0 header-title"><b>Basic example</b></h4>
             <div class="p-20">
-                <table class="table m-0" id="data-table" id="data-table" data-url="{{ url('administrator/users/source') }}" data-column="[
+                <table class="table m-0" id="data-table" id="data-table" data-url="{{ url('administrator/users/all/source') }}" data-column="[
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
