@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Model\Post;
+use App\Traits\UploadTrait;
 
 class PostController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +42,9 @@ class PostController extends Controller
     {
 
         Post::create($request->all());
+
+        // upload image
+        $image = $this->upload($request->file('file'), 'assets/'.$user->username.'/product/'.$product_id,true);
 
         return response()->json(true);
     }

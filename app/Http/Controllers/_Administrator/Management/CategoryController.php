@@ -18,6 +18,12 @@ class CategoryController extends Controller
     {
         $category = Category::Pluck('name','id');
 
+        $categories = Category::whereNull('parent_id')
+        ->with('childrenCategories')
+        ->get();
+        // dd($categories);
+        return view('_Administrator.management.category.categories',compact('categories'));
+
         return view('_Administrator.management.category.index',compact('category'));
     }
 

@@ -28,10 +28,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Role Name</label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"  name="name" value="{{ isset($data) ? $data->name : '' }}">
-                                @if ($errors->has('name'))
-                                    <div class="form-text text-danger">{{ $errors->first('name') }}</div>
-                                @endif
+                                <textarea name="" class="textEditor" placeholder="Masukan konten disini..." cols="80" rows="15"></textarea>
                             </div>
                         </div>
 
@@ -45,3 +42,38 @@
 </div>
 
 @endsection
+
+@push('js')
+<script src="{{ asset('assets/plugins') }}/tinymce/tinymce.min.js"></script>
+@endpush
+
+@push('script')
+<script>
+    // tinymce.init({
+    //   selector: '.textEditor',
+    //   plugins: 'link lists image advlist fullscreen media code table emoticons textcolor codesample hr preview',
+    //   menubar: false,
+    //   toolbar: [
+    //     'undo redo | bold italic underline strikethrough forecolor backcolor bullist numlist | blockquote subscript superscript | alignleft aligncenter alignright alignjustify | image media link',
+    //     ' formatselect | cut copy paste selectall | table emoticons hr | removeformat | preview code | fullscreen',
+    //   ],
+    // });
+    tinymce.init({
+        selector: '.textEditor',
+        plugins: 'image code',
+        toolbar: 'undo redo | image code',
+
+        /* without images_upload_url set, Upload tab won't show up*/
+        images_upload_url: 'postAcceptor.php',
+
+        /* we override default upload handler to simulate successful upload*/
+        images_upload_handler: function (blobInfo, success, failure) {
+            setTimeout(function () {
+            /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+            success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+            }, 2000);
+        }
+    });
+</script>
+  
+@endpush
