@@ -178,6 +178,8 @@ return [
         Nwidart\Menus\MenusServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
     ],
 
@@ -232,6 +234,7 @@ return [
         'Menu' => Nwidart\Menus\Facades\Menu::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 
     ],
 

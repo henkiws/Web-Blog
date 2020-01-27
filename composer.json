@@ -12,10 +12,13 @@
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
+        "laravel/helpers": "^1.1",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.1",
         "nwidart/laravel-menus": "^5.0-dev",
         "spatie/laravel-permission": "^3.3",
+        "unisharp/laravel-filemanager": "^1.9",
+        "uxweb/sweet-alert": "^2.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

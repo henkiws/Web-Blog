@@ -18,11 +18,9 @@ class CategoryController extends Controller
     {
         $category = Category::Pluck('name','id');
 
-        $categories = Category::whereNull('parent_id')
-        ->with('childrenCategories')
-        ->get();
+        $categories = Category::whereNull('parent_id')->with('childrenCategories')->get();
         // dd($categories);
-        return view('_Administrator.management.category.categories',compact('categories'));
+        // return view('_Administrator.management.category.categories',compact('categories'));
 
         return view('_Administrator.management.category.index',compact('category'));
     }
@@ -118,13 +116,21 @@ class CategoryController extends Controller
 
     public function source(){
         $data = Category::get();
-        return Datatables::of($data)
+        $categories = Category::whereNull('parent_id')->with('childrenCategories')->get();
+        $join = $data->merge($categories);
+        return Datatables::of($join)
                 ->addIndexColumn()
                 ->editColumn('level', function($row) {
                     return $row->parent_id == null ? '<span class="label label-danger">Parent Category</span>' : '<span class="label label-inverse">Sub Category</span>';
                 })
                 ->editColumn('tier', function($row) {
-                    return  $row->parent_id == null ? $row->name : 'parent → sub → sub';
+                    $child = '';
+                    foreach ($row->childrenCategories as $childCategory){
+                        $child .= '<li>'.$this->child_category($childCategory).'</li>';
+                    }
+                    $result = '<ul><b>'.$row->name.'</b> '.$child.'</ul>';
+                    return $result;
+                    // return  $row->parent_id == null ? $row->name : 'parent → sub → sub';
                 })
                 ->addColumn('action', function($row){
                     $editButton = '<button class="btn btn-icon waves-effect btn-warning waves-light show-data" data="'.$row->id.'"> <i class="fa fa-edit"></i> </button>';
@@ -133,6 +139,19 @@ class CategoryController extends Controller
                 })
                 ->rawColumns(['action','level','tier'])
                 ->make(true);
+    }
+
+    public function child_category($child_category)
+    {
+        $result = $child_category->name;
+
+        if($child_category->categories){
+            foreach($child_category->categories as $childCategory){
+                $this->child_category($childCategory);
+            }
+        }
+
+        return $result;
     }
     
 }

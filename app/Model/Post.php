@@ -3,12 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected static function boot()
     {
@@ -23,7 +23,7 @@ class Post extends Model
 
     protected $table = 'post';
 
-    protected $fillable = ['post_author','post_slug','post_title','post_content','post_type','post_status','comment_status','comment_count'];
+    protected $fillable = ['post_author','post_slug','post_title','post_content','post_type','post_status','comment_status','comment_count','category_id'];
 
     protected $hidden = [
         'deleted_at', 'updated_at','created_at'
@@ -31,7 +31,27 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Model\User','post_author','id');
+        return $this->belongsTo('App\User','post_author','id');
+    }
+
+    public function image()
+    {
+        return $this->belongsTo('App\Model\Media','id','fk');
+    }
+
+    public function meta()
+    {
+        return $this->hasMany('App\Model\PostMeta','post_id','id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Model\Category','category_id','id');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany('App\Model\TagPost','post_id','id');
     }
     
 }

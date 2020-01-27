@@ -41,6 +41,7 @@
     {{-- <script src="{{ asset('/') }}assets/plugins/datatables/dataTables.buttons.min.js"></script> --}}
 
     <script src="{{ asset('/') }}assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+    {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
 
     @stack('js')
 
@@ -57,3 +58,14 @@
 
         });
     </script>
+
+    @if (session('error'))
+        <script>
+            swal("Error", "{{ session('error') }}", "error");
+        </script>
+    @endif
+    @if (session('success'))
+        <script>
+            swal("Success","{{ session('success') }}", "success");
+        </script>
+    @endif

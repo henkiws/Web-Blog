@@ -18,13 +18,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth','menu']], function () {
-    // Home
+    // LOCK SCREEN
+    Route::namespace('Auth')->group(function () {
+
+        Route::get('administrator/lock-screen','LockScreenController@index');
+
+    });
+    // HOME
     Route::namespace('_Administrator\Dashboard')->group(function () {
 
         Route::get('administrator/home','HomeController@index');
 
     });
-    // User
+    // USER
     Route::namespace('_Administrator\User')->group(function () {
 
         Route::get('administrator/users/all/source','UserController@source');
@@ -37,7 +43,7 @@ Route::group(['middleware' => ['auth','menu']], function () {
         Route::resource('administrator/permission/users','PermissionController');
 
     });
-    // Management
+    // MANAGEMENT
     Route::namespace('_Administrator\Management')->group(function () {
 
         Route::get('administrator/management/category/source','CategoryController@source');
@@ -47,7 +53,20 @@ Route::group(['middleware' => ['auth','menu']], function () {
         Route::resource('administrator/management/tag','TagController');
 
         Route::get('administrator/management/post/source','PostController@source');
+        Route::get('administrator/management/post/create/categories','PostController@categories');
         Route::resource('administrator/management/post','PostController');
+
+    });
+    // MEDIA
+    Route::namespace('_Administrator\Media')->group(function () {
+
+        Route::get('administrator/medias','MediaController@index');
+
+    });
+    // COMMENT
+    Route::namespace('_Administrator\Comment')->group(function () {
+
+        Route::get('administrator/comments','CommentController@index');
 
     });
 

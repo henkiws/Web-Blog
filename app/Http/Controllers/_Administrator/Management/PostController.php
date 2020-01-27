@@ -6,7 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Model\Post;
+use App\Model\PostMeta;
+use App\Model\TagPost;
+use App\Model\Tag;
+use App\Model\Category;
+use App\Model\Media;
 use App\Traits\UploadTrait;
+use Auth;
+use DB;
+use Alert;
 
 class PostController extends Controller
 {
@@ -19,7 +27,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('_Administrator.management.post.index');
+        $post = Post::with(['image','user'])->paginate();
+        
+        return view('_Administrator.management.post.index', compact('post'));
     }
 
     /**
@@ -40,13 +50,60 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try{
+            // POST
+            $post = [
+                "post_author" => Auth::id(),
+                "post_title" => $request->post_title,
+                "post_content" => $request->post_content,
+                "post_type" => "post", // post,page,revision
+                "post_status" => $request->post_status,
+                "comment_status" => $request->comment_status,
+                "category_id" => (int)$request->category
+            ];
+            $res = Post::create($post);
+            
+            // META
+            $meta = ['title','description'];
+            $postMeta = [];
+            foreach( $meta as $key => $item ){
+                $postMeta[] = [
+                    "post_id" => $res->id,
+                    "meta_key" => $item,
+                    "meta_value" => $request->meta[$key] 
+                ];
+            }
+            PostMeta::insert($postMeta);
 
-        Post::create($request->all());
+            // MEDIA
+            $media = [
+                "fk" => $res->id,
+                "media_name" => $request->image,
+                "media_path" => $request->image,
+                "media_type" => 'post',
+                "media_status" => 'publish'
+            ];
+            Media::create($media);
 
-        // upload image
-        $image = $this->upload($request->file('file'), 'assets/'.$user->username.'/product/'.$product_id,true);
+            // TAGS
+            $tags = explode(',',$request->tags);
+            foreach( $tags as $item ){
+                $tag = Tag::firstOrCreate(['name' => $item]);
+                $tagPost = [
+                    "post_id" => $res->id,
+                    "tag_id" => $tag->id
+                ];
+                $tagPost = TagPost::create($tagPost);
+            }
+            DB::commit();
+            // Alert::success('Success', 'Good Job!');
+            return redirect('administrator/management/post')->with('success','Good Job!');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect('administrator/management/post/create')->with('error','Something Went Wrong!');
+        }
 
-        return response()->json(true);
     }
 
     /**
@@ -68,7 +125,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $data = Post::findOrFail($id);
+        $data = Post::with(['user','image','meta','category','tags.tag'])->findOrFail($id);
 
         return view('_Administrator.management.post.form',compact('data'));
     }
@@ -82,11 +139,63 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $find = Post::findOrFail($id);
+        DB::beginTransaction();
+        try{
+            // POST
+            $find = Post::findOrFail($id);
+            $post = [
+                "post_author" => Auth::id(),
+                "post_title" => $request->post_title,
+                "post_content" => $request->post_content,
+                "post_type" => "post", // post,page,revision
+                "post_status" => $request->post_status,
+                "comment_status" => $request->comment_status,
+                "category_id" => (int)$request->category
+            ];
+            $res = $find->update($post);
+            
+            // META
+            PostMeta::where('post_id',$id)->delete();
+            $meta = ['title','description'];
+            $postMeta = [];
+            foreach( $meta as $key => $item ){
+                $postMeta[] = [
+                    "post_id" => $id,
+                    "meta_key" => $item,
+                    "meta_value" => $request->meta[$key] 
+                ];
+            }
+            PostMeta::insert($postMeta);
 
-        $find->update($request->all());
+            // MEDIA
+            Media::where('fk',$id)->delete();
+            $media = [
+                "fk" => $id,
+                "media_name" => $request->image,
+                "media_path" => $request->image,
+                "media_type" => 'post',
+                "media_status" => 'publish'
+            ];
+            Media::create($media);
 
-        return response()->json(true);
+            // TAGS
+            TagPost::where('post_id',$id)->delete();
+            $tags = explode(',',$request->tags);
+            foreach( $tags as $item ){
+                $tag = Tag::firstOrCreate(['name' => $item]);
+                $tagPost = [
+                    "post_id" => $id,
+                    "tag_id" => $tag->id
+                ];
+                $tagPost = TagPost::create($tagPost);
+            }
+            DB::commit();
+        
+            return redirect('administrator/management/post')->with('success','Good Job!');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect('administrator/management/post/'.$id.'/edit')->with('error','Something Went Wrong!');
+        }
     }
 
     /**
@@ -100,6 +209,12 @@ class PostController extends Controller
         $find = Post::findOrFail($id);
 
         $find->delete();
+
+        PostMeta::where('post_id',$id)->delete();
+
+        Media::where('fk',$id)->delete();
+
+        TagPost::where('post_id',$id)->delete();
 
         return response()->json(true);
     }
@@ -127,12 +242,19 @@ class PostController extends Controller
                     return '<span class="label label-default">'.$row->post_status.'</span>';
                 })
                 ->addColumn('action', function($row){
-                    $editButton = '<button class="btn btn-icon waves-effect btn-warning waves-light show-data" data="'.$row->id.'"> <i class="fa fa-edit"></i> </button>';
+                    $editButton = '<a class="btn btn-icon waves-effect btn-warning waves-light show-data" href="'.url('administrator/management/post/'.$row->id.'/edit').'"> <i class="fa fa-edit"></i> </a>';
                     $deleteButton = '<button class="btn btn-icon waves-effect btn-danger waves-light del-data" data="'.$row->id.'"> <i class="fa fa-trash-o"></i> </button>';
                     return $editButton.' &nbsp; '.$deleteButton;            
                 })
                 ->rawColumns(['action','status'])
                 ->make(true);
+    }
+
+    public function categories()
+    {
+        $categories = Category::select('id','name','parent_id')->whereNull('parent_id')->with('childrenCategories:id,name,parent_id')->get();
+        
+        return response()->json($categories);
     }
 
 }

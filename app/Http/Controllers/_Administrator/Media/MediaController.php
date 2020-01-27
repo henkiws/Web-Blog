@@ -14,7 +14,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        //
+        return view('_Administrator.media.index');
     }
 
     /**

@@ -43,8 +43,8 @@ class MenuMiddleware
 
             $menu->dropdown('Settings', function ($sub) use($user,$attr) {
                 $sub->url('administrator/settings/general', 'General', $attr);
-                $sub->url('administrator/settings/write', 'Write', $attr);
-                $sub->url('administrator/settings/read', 'Read', $attr);
+                $sub->url('administrator/settings/writing', 'Writing', $attr);
+                $sub->url('administrator/settings/reading', 'Reading', $attr);
                 $sub->url('administrator/settings/discussion', 'Discussion', $attr);
             }, ['icon' => 'fa fa-cogs']);
 

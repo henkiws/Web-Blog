@@ -24,7 +24,7 @@ class Category extends Model
 
     public function categories()
     {
-        return $this->hasMany(Category::class,'parent_id','id');
+        return $this->hasMany(Category::class,'parent_id','id')->select('id','name','parent_id');
     }
 
     public function childrenCategories()

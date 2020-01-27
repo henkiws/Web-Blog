@@ -12,10 +12,12 @@
         <title>Ubold - Responsive Admin Dashboard Template</title>
 
         @include('_Administrator.layouts._css')
+        
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     </head>
     <body class="fixed-left">
-
+        @include('sweet::alert')
         <div id="wrapper">
 
             @include('_Administrator.layouts.header')
