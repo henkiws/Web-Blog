@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('_Administrator.layouts.login')
 @section('content')
     <div class="account-pages"></div>
     <div class="clearfix"></div>

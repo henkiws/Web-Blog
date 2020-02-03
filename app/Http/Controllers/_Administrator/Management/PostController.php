@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::with(['image','user'])->paginate();
+        $post = Post::with(['image','user'])->where('post_type','post')->paginate();
         
         return view('_Administrator.management.post.index', compact('post'));
     }

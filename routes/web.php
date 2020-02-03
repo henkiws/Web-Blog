@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -57,6 +57,12 @@ Route::group(['middleware' => ['auth','menu']], function () {
         Route::resource('administrator/management/post','PostController');
 
     });
+    // SETTING
+    Route::namespace('_Administrator\Setting')->group(function () {
+
+        Route::resource('administrator/settings/general','GeneralController');
+
+    });
     // MEDIA
     Route::namespace('_Administrator\Media')->group(function () {
 
@@ -69,5 +75,16 @@ Route::group(['middleware' => ['auth','menu']], function () {
         Route::get('administrator/comments','CommentController@index');
 
     });
+
+});
+
+// FRONTEND
+Route::namespace('_Public')->group(function () {
+
+    Route::get('/','HomeController@index');
+
+    Route::get('/blog','BlogController@index');
+
+    Route::get('{page}','PageController@index');
 
 });
