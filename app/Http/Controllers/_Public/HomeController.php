@@ -4,6 +4,7 @@ namespace App\Http\Controllers\_Public;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\Post;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('_Public.home.index');
+        $post = Post::with(['image','user'])
+                ->where('post_type','post')
+                ->where('post_status','publish')
+                ->orderBy('id','asc')->get();
+        
+        return view('_Public.home.index', compact('post'));
     }
 
     /**

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\_Public;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class TagsController extends Controller
 {
     public function index()
     {
-        return 'work';
+        return view('_Public.tags.index');
     }
 }

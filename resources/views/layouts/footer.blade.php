@@ -2,14 +2,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4 mb-md-0">
-          <h3>About SoftLand</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius ea delectus pariatur, numquam aperiam
-            dolore nam optio dolorem facilis itaque voluptatum recusandae deleniti minus animi.</p>
+          <h3>About {{ $general['name'] }}</h3>
+          <p>{!! $general['about_us'] !!}</p>
           <p class="social">
-            <a href="#"><span class="icofont-twitter"></span></a>
-            <a href="#"><span class="icofont-facebook"></span></a>
-            <a href="#"><span class="icofont-dribbble"></span></a>
-            <a href="#"><span class="icofont-behance"></span></a>
+            <a href="{{ $general['twitter'] }}"><span class="icofont-twitter"></span></a>
+            <a href="{{ $general['facebook'] }}"><span class="icofont-facebook"></span></a>
+            <a href="{{ $general['instagram'] }}"><span class="icofont-instagram"></span></a>
           </p>
         </div>
         <div class="col-md-7 ml-auto">
@@ -45,7 +43,7 @@
 
       <div class="row justify-content-center text-center">
         <div class="col-md-7">
-          <p class="copyright">&copy; Copyright SoftLand. All Rights Reserved</p>
+          <p class="copyright">&copy; Copyright {{ $general['name'] }}. All Rights Reserved</p>
           <div class="credits">
             <!--
               All the links in the footer should remain intact.

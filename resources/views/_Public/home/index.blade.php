@@ -21,9 +21,8 @@
         <div class="col-12 hero-text-image">
           <div class="row">
             <div class="col-lg-7 text-center text-lg-left">
-              <h1 data-aos="fade-right">Promote Your App with SoftLand</h1>
-              <p class="mb-5" data-aos="fade-right" data-aos-delay="100">Lorem ipsum dolor sit amet, consectetur
-                adipisicing elit.</p>
+              <h1 data-aos="fade-right">{{ $general['tagline'] }}</h1>
+              <p class="mb-5" data-aos="fade-right" data-aos-delay="100">{{ $general['sub_tagline'] }}</p>
               <p data-aos="fade-right" data-aos-delay="200" data-aos-offset="-500"><a href="#"
                   class="btn btn-outline-white">Get started</a></p>
             </div>
@@ -87,86 +86,21 @@
       </div>
 
       <div class="row mb-5">
+        @foreach($post as $item)
         <div class="col-md-4">
           <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_1.jpg" alt="Image" class="img-fluid">
+            <a href="{{ url('blog/'.$item->post_slug) }}" class="d-block mb-4">
+              <img src="{{ url($item->image->media_path) }}" alt="Image" class="img-fluid">
             </a>
             <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
+              <span class="post-meta">{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }} &bullet; By <a href="#">{{ $item->user->name }}</a></span>  
+              <h3><a href="{{ url('blog/'.$item->post_slug) }}">{{ $item->post_title }}</a></h3>
+              <p>{!! substr($item->post_content, 0, 100) !!}...</p>
+              <p><a href="{{ url('blog/'.$item->post_slug) }}" class="readmore">Read more</a></p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_2.jpg" alt="Image" class="img-fluid">
-            </a>
-            <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_3.jpg" alt="Image" class="img-fluid">
-            </a>
-            <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_4.jpg" alt="Image" class="img-fluid">
-            </a>
-            <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_3.jpg" alt="Image" class="img-fluid">
-            </a>
-            <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="post-entry">
-            <a href="blog-single.html" class="d-block mb-4">
-              <img src="{{ url('assets/front/softland') }}/img/img_2.jpg" alt="Image" class="img-fluid">
-            </a>
-            <div class="post-text">
-              <span class="post-meta">December 13, 2019 &bullet; By <a href="#">Admin</a></span>  
-              <h3><a href="#">Chrome now alerts you when someone steals your password</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, optio.</p>
-              <p><a href="#" class="readmore">Read more</a></p>
-            </div>
-          </div>
-        </div>
-
+        @endforeach
       </div>
 
       <div class="row">

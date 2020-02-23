@@ -13,14 +13,14 @@
       <div class="row align-items-center">
 
         <div class="col-6 col-lg-2">
-          <h1 class="mb-0 site-logo"><a href="index.html" class="mb-0">SoftLand</a></h1>
+          <h1 class="mb-0 site-logo"><a href="index.html" class="mb-0">{{ $general['name'] }}</a></h1>
         </div>
 
         <div class="col-12 col-md-10 d-none d-lg-block">
           <nav class="site-navigation position-relative text-right" role="navigation">
 
             <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-              <li class="active"><a href="index.html" class="nav-link">Home</a></li>
+              <li class="active"><a href="/" class="nav-link">Home</a></li>
               <li><a href="features.html" class="nav-link">Features</a></li>
               <li><a href="pricing.html" class="nav-link">Pricing</a></li>
 

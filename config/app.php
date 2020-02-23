@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
     ],
 

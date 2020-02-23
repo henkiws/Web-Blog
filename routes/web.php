@@ -83,7 +83,11 @@ Route::namespace('_Public')->group(function () {
 
     Route::get('/','HomeController@index');
 
-    Route::get('/blog','BlogController@index');
+    Route::get('/blog/{slug}','BlogController@index');
+
+    Route::get('/tags/{slug}','TagsController@index');
+
+    Route::get('/categories/{slug}','CategoriesController@index');
 
     Route::get('{page}','PageController@index');
 
